@@ -12,6 +12,7 @@ const COLLECTION_NAME:&str = "users";
 #[get("/all")]
 async fn user_handler(client: web::Data<Database>) -> HttpResponse {
     let collection:Collection<User> = client.collection(COLLECTION_NAME);
+    
     match collection.find(None, None).await {
         Ok(mut cursor) => {
             let mut users: Vec<User> = vec![];
@@ -20,10 +21,10 @@ async fn user_handler(client: web::Data<Database>) -> HttpResponse {
                 users.push(user)
             }
 
-            return HttpResponse::Ok().json(users)
+            HttpResponse::Ok().json(users)
         },
-        Err(e) => return HttpResponse::InternalServerError().json(e.to_string()),
-    };
+        Err(e) => HttpResponse::InternalServerError().json(e.to_string()),
+    }
 }
 
 #[post("/user")]

@@ -15,7 +15,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(client.database(dotenv!("DATABASE")).clone()))
+            .app_data(web::Data::new(client.database(dotenv!("DATABASE"))))
             .service(
                 UserRoutes::user_routes()
             )
